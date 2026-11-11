@@ -26,7 +26,7 @@ export class ImageConverterComponent implements OnDestroy {
   hasResult = signal(false);
 
   /**
-   * Обработка выбранного изображения.
+   * Processing the selected image.
    */
   onFileSelected(file: File): void {
     this.releasePreviewUrl();
@@ -41,14 +41,14 @@ export class ImageConverterComponent implements OnDestroy {
   }
 
   /**
-   * Обработка ошибки загрузки.
+   * Handling a load error.
    */
   onValidationError(message: string): void {
     this.errorMessage.set(message);
   }
 
   /**
-   * Удаление изображения.
+   * Deleting an image.
    */
   removeImage(): void {
     this.releasePreviewUrl();
@@ -61,7 +61,7 @@ export class ImageConverterComponent implements OnDestroy {
   }
 
   /**
-   * Освобождение URL изображения.
+   * Releasing the image URL.
    */
   private releasePreviewUrl(): void {
     const currentUrl = this.previewUrl();
@@ -73,7 +73,7 @@ export class ImageConverterComponent implements OnDestroy {
   }
 
   /**
-   * Очистка ресурсов при уничтожении компонента.
+   * Cleaning up resources when a component is destroyed.
    */
   ngOnDestroy(): void {
     this.releasePreviewUrl();
@@ -103,7 +103,7 @@ export class ImageConverterComponent implements OnDestroy {
           const text = results
             .map((item) => item.text)
             .filter(Boolean)
-            .join('\n\n');
+            .join(' ');
 
           this.recognizedText.set(text);
           this.hasResult.set(true);

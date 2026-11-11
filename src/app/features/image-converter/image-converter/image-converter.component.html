@@ -10,8 +10,7 @@
     </h1>
 
     <p class="converter__description">
-      Загрузите изображение, чтобы автоматически
-      извлечь из него текст.
+      Upload an image to automatically extract text from it.
     </p>
   </header>
 
@@ -43,9 +42,9 @@
           (click)="recognizeText()"
         >
           @if (isLoading()) {
-            Распознаём...
+            Recognizing...
           } @else {
-            Распознать текст
+            Recognize text
           }
         </button>
       </div>
@@ -54,7 +53,7 @@
     @if (isLoading()) {
       <div class="converter__loading">
         <span class="converter__spinner"></span>
-        <p>Распознаём текст на изображении...</p>
+        <p>Recognize text in an image...</p>
       </div>
     }
 
@@ -64,7 +63,7 @@
 
     @if (hasResult() && !recognizedText()) {
       <div class="converter__empty">
-        Текст на изображении не обнаружен.
+        No text detected in the image.
       </div>
     }
 
