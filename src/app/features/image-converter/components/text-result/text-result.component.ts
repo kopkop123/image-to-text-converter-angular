@@ -26,9 +26,7 @@ export class TextResultComponent {
     } catch (error) {
       console.error('Clipboard error:', error);
 
-      this.copyError.set(
-        'Не удалось скопировать текст. Попробуй выделить и скопировать его вручную.',
-      );
+      this.copyError.set('Failed to copy the text. Try selecting and copying it manually.');
     }
   }
 }
