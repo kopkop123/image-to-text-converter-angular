@@ -1,0 +1,52 @@
+
+<div
+  class="uploader"
+  [class.uploader--dragging]="isDragging"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <div class="uploader__content">
+    <div class="uploader__icon">
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <path d="m21 15-5-5L5 21" />
+      </svg>
+    </div>
+
+    <h3 class="uploader__title">
+      Перетащите изображение сюда
+    </h3>
+
+    <p class="uploader__description">
+      или выберите файл со своего устройства
+    </p>
+
+    <label
+      class="uploader__button"
+      for="image-input"
+    >
+      Выбрать изображение
+    </label>
+
+    <input
+      id="image-input"
+      class="uploader__input"
+      type="file"
+      accept="image/jpeg,image/png"
+      (change)="onFileChange($event)"
+    />
+
+    <p class="uploader__hint">
+      Поддерживаются JPEG и PNG. Максимальный размер — 2 MB.
+    </p>
+  </div>
+</div>
