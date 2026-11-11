@@ -98,7 +98,8 @@ export class OcrService {
             );
           });
 
-          console.log(`Compression: ${Math.round(blob.size / 1024)} KB, quality: ${quality}`);
+          // Check the size of the compressed image. If it is less than 200 KB, we return it.
+          // console.log(`Compression: ${Math.round(blob.size / 1024)} KB, quality: ${quality}`);
 
           if (blob.size <= this.MAX_FILE_SIZE) {
             return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, {
