@@ -33,11 +33,46 @@
       />
     }
 
+
+    @if (selectedFile()) {
+      <div class="converter__actions">
+        <button
+          class="converter__recognize"
+          type="button"
+          [disabled]="isLoading()"
+          (click)="recognizeText()"
+        >
+          @if (isLoading()) {
+            Распознаём...
+          } @else {
+            Распознать текст
+          }
+        </button>
+      </div>
+    }
+
+    @if (isLoading()) {
+      <div class="converter__loading">
+        <span class="converter__spinner"></span>
+        <p>Распознаём текст на изображении...</p>
+      </div>
+    }
+
+    @if (hasResult() && recognizedText()) {
+      <app-text-result [text]="recognizedText()" />
+    }
+
+    @if (hasResult() && !recognizedText()) {
+      <div class="converter__empty">
+        Текст на изображении не обнаружен.
+      </div>
+    }
+
+
     @if (errorMessage()) {
       <div class="converter__error" role="alert">
         {{ errorMessage() }}
       </div>
     }
-
   </section>
 </main>

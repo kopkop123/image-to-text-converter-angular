@@ -1,0 +1,33 @@
+
+<section class="result">
+  <div class="result__header">
+    <div>
+      <h2 class="result__title">Распознанный текст</h2>
+      <p class="result__description">
+        Текст, извлечённый из изображения
+      </p>
+    </div>
+
+    <button
+      class="result__copy"
+      type="button"
+      (click)="copyText()"
+    >
+      @if (copied()) {
+        Скопировано!
+      } @else {
+        Копировать
+      }
+    </button>
+
+    @if (copyError()) {
+      <p class="result__error" role="alert">
+        {{ copyError() }}
+      </p>
+    }
+  </div>
+
+  <div class="result__content">
+    {{ text }}
+  </div>
+</section>
