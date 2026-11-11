@@ -1,0 +1,43 @@
+
+<main class="converter">
+  <header class="converter__header">
+    <div class="converter__badge">
+      IMAGE TO TEXT
+    </div>
+
+    <h1 class="converter__title">
+      Image to Text Converter
+    </h1>
+
+    <p class="converter__description">
+      Загрузите изображение, чтобы автоматически
+      извлечь из него текст.
+    </p>
+  </header>
+
+  <section class="converter__content">
+
+    @if (!selectedFile()) {
+      <app-image-uploader
+        (fileSelected)="onFileSelected($event)"
+        (validationError)="onValidationError($event)"
+      />
+    }
+
+    @if (previewUrl() && selectedFile()) {
+      <app-image-preview
+        [imageUrl]="previewUrl()!"
+        [fileName]="selectedFile()!.name"
+        [fileSize]="selectedFile()!.size"
+        (removeImage)="removeImage()"
+      />
+    }
+
+    @if (errorMessage()) {
+      <div class="converter__error" role="alert">
+        {{ errorMessage() }}
+      </div>
+    }
+
+  </section>
+</main>
