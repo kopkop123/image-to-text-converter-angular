@@ -18,7 +18,7 @@ export class ImageUploaderComponent {
   private readonly ALLOWED_TYPES = ['image/jpeg', 'image/png'];
 
   /**
-   * Обработка выбора файла через input.
+   * Handling file selection via an input element.
    */
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -28,23 +28,23 @@ export class ImageUploaderComponent {
       this.validateAndEmit(file);
     }
 
-    // Позволяет повторно выбрать тот же файл.
+    // Allows you to re-select the same file.
     input.value = '';
   }
 
   /**
-   * Проверка файла и передача родителю.
+   * File verification and transfer to the parent.
    */
   private validateAndEmit(file: File): void {
     this.validationError.emit('');
 
     if (!this.ALLOWED_TYPES.includes(file.type)) {
-      this.validationError.emit('Поддерживаются только изображения JPEG и PNG.');
+      this.validationError.emit('Only JPEG and PNG images are supported.');
       return;
     }
 
     if (file.size > this.MAX_FILE_SIZE) {
-      this.validationError.emit('Размер изображения не должен превышать 2 MB.');
+      this.validationError.emit('The image size must not exceed 2 MB.');
       return;
     }
 
@@ -52,7 +52,7 @@ export class ImageUploaderComponent {
   }
 
   /**
-   * Начало перетаскивания.
+   * Start of dragging.
    */
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -60,7 +60,7 @@ export class ImageUploaderComponent {
   }
 
   /**
-   * Выход курсора из области загрузки.
+   * Cursor leaves the loading area.
    */
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
@@ -68,7 +68,7 @@ export class ImageUploaderComponent {
   }
 
   /**
-   * Обработка перетаскивания файла.
+   * Handling file drag-and-drop.
    */
   onDrop(event: DragEvent): void {
     event.preventDefault();
