@@ -17,7 +17,7 @@ export class OcrService {
   private readonly MAX_FILE_SIZE = 200 * 1024;
 
   /**
-   * Подготавливает изображение и отправляет его в OCR API.
+   * Prepares the image and sends it to the OCR API.
    */
   recognizeText(file: File): Observable<OcrResult[]> {
     return from(this.compressImage(file)).pipe(
@@ -41,17 +41,17 @@ export class OcrService {
         }
 
         return throwError(() =>
-          error instanceof Error ? error.message : 'Не удалось подготовить изображение.',
+          error instanceof Error ? error.message : 'Failed to prepare the image.',
         );
       }),
     );
   }
 
   /**
-   * Сжимает изображение до размера не более 200 КБ.
+   * Compresses the image to a size of no more than 200 KB.
    */
   private async compressImage(file: File): Promise<File> {
-    // Если файл уже подходит по размеру, не сжимаем его.
+    // If the file is already the right size, we do not compress it.
     if (file.size <= this.MAX_FILE_SIZE) {
       return file;
     }
@@ -63,7 +63,7 @@ export class OcrService {
       const context = canvas.getContext('2d');
 
       if (!context) {
-        throw new Error('Не удалось подготовить изображение к сжатию.');
+        throw new Error('Failed to prepare the image for compression.');
       }
 
       let width = imageBitmap.width;
@@ -71,13 +71,13 @@ export class OcrService {
 
       const qualityLevels = [0.9, 0.82, 0.74, 0.66, 0.58, 0.5];
 
-      // Сначала уменьшаем качество, затем разрешение.
+      // First, we reduce the quality, then the resolution.
       while (true) {
         canvas.width = width;
         canvas.height = height;
 
-        // Белый фон нужен для корректного преобразования PNG
-        // с прозрачностью в JPEG.
+        // A white background is required for the correct conversion of the PNG.
+        // with transparency in JPEG.
         context.fillStyle = '#ffffff';
         context.fillRect(0, 0, width, height);
 
@@ -90,7 +90,7 @@ export class OcrService {
                 if (result) {
                   resolve(result);
                 } else {
-                  reject(new Error('Ошибка сжатия изображения.'));
+                  reject(new Error('Image compression error.'));
                 }
               },
               'image/jpeg',
@@ -98,7 +98,7 @@ export class OcrService {
             );
           });
 
-          console.log(`Сжатие: ${Math.round(blob.size / 1024)} KB, качество: ${quality}`);
+          console.log(`Compression: ${Math.round(blob.size / 1024)} KB, quality: ${quality}`);
 
           if (blob.size <= this.MAX_FILE_SIZE) {
             return new File([blob], `${file.name.replace(/\.[^.]+$/, '')}.jpg`, {
@@ -108,8 +108,8 @@ export class OcrService {
           }
         }
 
-        // Не уменьшаем изображение ниже 1000 px
-        // по длинной стороне, чтобы сохранить читаемость текста.
+        // Do not scale the image down below 1000 px
+        // along the long side, to maintain the readability of the text.
         if (Math.max(width, height) <= 1000) {
           break;
         }
@@ -119,7 +119,7 @@ export class OcrService {
       }
 
       throw new Error(
-        'Не удалось уменьшить изображение до 200 КБ без чрезмерной потери качества. Попробуй другое изображение.',
+        'It was not possible to reduce the image to 200 KB without an excessive loss of quality. Try a different image.',
       );
     } finally {
       imageBitmap.close();
@@ -127,29 +127,29 @@ export class OcrService {
   }
 
   /**
-   * Преобразует HTTP-ошибки в понятные пользователю сообщения.
+   * Converts HTTP errors into messages that are easy for the user to understand.
    */
   private getErrorMessage(error: HttpErrorResponse): string {
     if (error.status === 0) {
-      return 'Не удалось подключиться к API. Проверь интернет-соединение и доступность API.';
+      return 'Failed to connect to the API. Check your internet connection and the availability of the API.';
     }
 
     if (error.status === 401 || error.status === 403) {
-      return 'Ошибка авторизации. Проверь API-ключ.';
+      return 'Authorization error. Check your API key.';
     }
 
     if (error.status === 413) {
-      return 'Изображение слишком большое для обработки API.';
+      return 'The image is too large for API processing.';
     }
 
     if (error.status === 429) {
-      return 'Превышен лимит запросов API. Попробуй позже.';
+      return 'API request limit exceeded. Please try again later.';
     }
 
     if (error.status >= 500) {
-      return 'Сервис распознавания временно недоступен.';
+      return 'The recognition service is temporarily unavailable.';
     }
 
-    return 'Не удалось распознать текст. Попробуй другое изображение.';
+    return 'Could not recognize the text. Try a different image.';
   }
 }
